@@ -1,6 +1,6 @@
 # Mern Auth client side
 
-Mern authentication module with JWT and Google identity
+React authentication module with JWT and Google identity
 
 ## Getting started
 
