@@ -13,9 +13,11 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Input from "./Input";
 import jwt_decode from "jwt-decode";
 //import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 const Auth = () => {
   const classes = useStyles();
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
+  //const location = useLocation();
   const [showPassword, setShowPassword] = useState(false);
   const [isSignup, setIsSignup] = useState(false);
   const dispatch = useDispatch();
@@ -32,6 +34,7 @@ const Auth = () => {
     const token = response;
     try {
       dispatch({type: 'AUTH', data:{result, token} });
+      navigate("/");
     } catch (error) {
       console.log(error);
     }
@@ -47,33 +50,11 @@ google.accounts.id.renderButton(
   { theme : "outline", size : "large"}
 );
   }, []);
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
-
-  useEffect(() => {
-    const token = user?.token;
-    //JWT
-    setUser(JSON.parse(localStorage.getItem('profile')));
-
-  }, []);
-  const logOut = () => {
-    dispatch({type : 'LOGOUT'});
-    //navigate.pushState('/');
-    setUser(null);
-  };
+  
   return (
     <Container component="main" maxWidth="xs">
-          {user?.result.email}
 
-      <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            onClick={logOut}
-          >
-            Logout
-          </Button>
+      
       <Paper className={classes.paper} elevation={3}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
