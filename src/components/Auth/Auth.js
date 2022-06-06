@@ -45,7 +45,7 @@ const Auth = () => {
   };
   const switchMode = () => {
     setIsSignup((prevIsSignup) => !prevIsSignup);
-    hundleShowPassword(false);
+    setShowPassword(false);
   };
   const handleCallbackResponse = async (response) => {
     const result = jwt_decode(response?.credential);
