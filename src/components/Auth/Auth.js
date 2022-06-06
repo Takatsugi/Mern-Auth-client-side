@@ -7,24 +7,42 @@ import {
   Typography,
   Container,
 } from "@material-ui/core";
-import { useDispatch } from 'react-redux';
+import { useDispatch } from "react-redux";
 import useStyles from "./styles";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Input from "./Input";
 import jwt_decode from "jwt-decode";
 //import { useNavigate } from 'react-router-dom'
-import { useNavigate } from 'react-router'
+import { useNavigate } from "react-router";
+import { signup, signin } from "../../actions/auth";
+const initalialState = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+};
 const Auth = () => {
   const classes = useStyles();
   const navigate = useNavigate();
   //const location = useLocation();
   const [showPassword, setShowPassword] = useState(false);
   const [isSignup, setIsSignup] = useState(false);
+  const [formData, setFormData] = useState(initalialState);
   const dispatch = useDispatch();
   const hundleShowPassword = () =>
     setShowPassword((prevShowPassword) => !prevShowPassword);
-  const hundleSubmit = () => {};
-  const hundleChange = () => {};
+  const hundleSubmit = (e) => {
+    e.preventDefault();
+    if (isSignup) {
+      dispatch(signup(formData, navigate));
+    } else {
+      dispatch(signin(formData, navigate));
+    }
+  };
+  const hundleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
   const switchMode = () => {
     setIsSignup((prevIsSignup) => !prevIsSignup);
     hundleShowPassword(false);
@@ -33,28 +51,27 @@ const Auth = () => {
     const result = jwt_decode(response?.credential);
     const token = response;
     try {
-      dispatch({type: 'AUTH', data:{result, token} });
+      dispatch({ type: "AUTH", data: { result, token } });
       navigate("/");
     } catch (error) {
       console.log(error);
     }
   };
   useEffect(() => {
-/* global google */
-google.accounts.id.initialize({
-  client_id: "547287536044-8dhablgn5foaaoqq6ljtifuioups93tl.apps.googleusercontent.com",
-  callback: handleCallbackResponse
-});
-google.accounts.id.renderButton(
-  document.getElementById("signInDiv"),
-  { theme : "outline", size : "large"}
-);
+    /* global google */
+    google.accounts.id.initialize({
+      client_id:
+        "547287536044-8dhablgn5foaaoqq6ljtifuioups93tl.apps.googleusercontent.com",
+      callback: handleCallbackResponse,
+    });
+    google.accounts.id.renderButton(document.getElementById("signInDiv"), {
+      theme: "outline",
+      size: "large",
+    });
   }, []);
-  
+
   return (
     <Container component="main" maxWidth="xs">
-
-      
       <Paper className={classes.paper} elevation={3}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
