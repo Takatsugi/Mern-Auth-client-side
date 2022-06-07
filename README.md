@@ -1,6 +1,6 @@
 # Mern Auth client side
 
-React authentication module with JWT, Google identity, Axios, Redux and Redux thunk.
+ReactJs authentication module with JWT, Google identity, Axios, Redux and Redux thunk.
 
 ## Getting started
 
